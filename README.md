@@ -17,8 +17,8 @@ Usage:
     source: function() {
       return this.text();
     },
-    load: function($target) {
-      return $target.trigger('click');
+    load: function() {
+      return this.trigger('click');
     }
   });
 ```

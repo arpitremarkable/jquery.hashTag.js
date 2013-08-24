@@ -23,7 +23,7 @@ class HashTag
 			event: 'click'
 			hash: []
 			source: ()	->	@text()
-			load:	($target)	-> $target.trigger 'click'
+			load:	()	-> @trigger 'click'
 
 		for key, value of $.extend defaults, options
     		@[key]=value
