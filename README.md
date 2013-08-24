@@ -16,8 +16,8 @@ a jquery plugin that provides url hashTag support for target elements.
     source: ->
       @text()
   
-    load: ($target) ->
-      $target.trigger "click"
+    load: () ->
+      @trigger "click"
 ```
 ### js
 ```javascript
