@@ -49,3 +49,5 @@ a jquery plugin that provides url hashTag support for target elements.
 ### x.x
 - [ ] Custom slugify function
 - [ ] Track browser back and forward (hashChange) events
+- [ ] Provide option for window scope eg. window | top | document etc
+- [ ] Allow multiple event options and bind them with dynamic elements as well
