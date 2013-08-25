@@ -36,11 +36,12 @@ a jquery plugin that provides url hashTag support for target elements.
     }
   });
 ```
-## v0.1 Milestones
+## Milestones
+### v0.1
 - [x] get the project up and running with bare minimum options.
 - [x] create a jquery plugin and auto-inherit target elements
 
-## v0.2 Milestones
+### v0.2
 - [ ] slugify option => hash source will be auto [slugged](http://stackoverflow.com/questions/427102/what-is-a-slug-in-django)
 - [ ] function chaining support for library functions, just like jquery chaining
 - [ ] prepare an example, preferable showing support for jquery-ui tabs
