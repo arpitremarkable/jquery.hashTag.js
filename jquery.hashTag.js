@@ -45,6 +45,23 @@ Array.prototype.set = function() {
   return arr;
 };
 
+Array.prototype.slugify = function() {
+  var x;
+  return (function() {
+    var _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = this.length; _i < _len; _i++) {
+      x = this[_i];
+      _results.push(x.slugify());
+    }
+    return _results;
+  }).call(this);
+};
+
+String.prototype.slugify = function() {
+  return this.trim().replace(/\s+/g, ' ').replace(/[^a-zA-Z0-9\-]/g, ' ').replace(/(\s|\-)+/g, '_').toLowerCase();
+};
+
 $.fn.extend({
   hashTag: function() {
     var args;
@@ -161,7 +178,7 @@ HashTag = (function() {
   };
 
   HashTag.prototype.joinHash = function(hash) {
-    return "#" + (hash.join('#'));
+    return "#" + (hash.slugify().join('#'));
   };
 
   HashTag.prototype.applyHash = function(hash) {
@@ -175,7 +192,7 @@ HashTag = (function() {
     this.$target.each(function() {
       var __this, _ref;
       __this = $(this);
-      if (_ref = _this.source.apply(__this), __indexOf.call(hash, _ref) >= 0) {
+      if (_ref = _this.source.apply(__this).slugify(), __indexOf.call(hash.slugify(), _ref) >= 0) {
         return $target.push(this);
       }
     });

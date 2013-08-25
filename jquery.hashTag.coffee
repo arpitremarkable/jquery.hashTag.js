@@ -9,6 +9,12 @@ Array::set = ()	->
 	arr.push x for x in @ when x not in arr
 	return arr
 
+Array::slugify = 	->
+	return (x.slugify() for x in @)
+
+String::slugify = 	->
+	return @.trim().replace(/\s+/g, ' ').replace(/[^a-zA-Z0-9\-]/g, ' ').replace(/(\s|\-)+/g, '_').toLowerCase()
+
 $.fn.extend
 	hashTag: (args...)	->
 		return new HashTag @, args...
@@ -67,7 +73,7 @@ class HashTag
 		return (tag for tag in hash.split('#') when Boolean(tag))
 
 	joinHash:	(hash)	->
-		return "##{hash.join('#')}"
+		return "##{hash.slugify().join('#')}"
 
 	applyHash:	(hash)	->
 		window.location.hash = @joinHash @old_hash.concat(@hash).set()
@@ -77,7 +83,7 @@ class HashTag
 		_this = @
 		@$target.each	->
 			__this= $(@)
-			if _this.source.apply(__this) in hash
+			if _this.source.apply(__this).slugify() in hash.slugify()
 				$target.push @
 		return $target
 
