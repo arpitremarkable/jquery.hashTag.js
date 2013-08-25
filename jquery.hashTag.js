@@ -85,7 +85,7 @@ HashTag = (function() {
     if (this.clearAtLoad) {
       this.old_hash = [];
     }
-    this.applyHash(this.hash);
+    this.applyHash();
     _this = this;
     $target[this.event](function(e) {
       var $this, multi, tag, toggle;
@@ -106,7 +106,7 @@ HashTag = (function() {
       } else {
         _this.addHash(tag);
       }
-      return _this.applyHash(_this.hash);
+      return _this.applyHash();
     });
   }
 
@@ -164,7 +164,7 @@ HashTag = (function() {
     return "#" + (hash.join('#'));
   };
 
-  HashTag.prototype.applyHash = function(hash) {
+  HashTag.prototype.applyHash = function() {
     return window.location.hash = this.joinHash(this.old_hash.concat(this.hash).set());
   };
 

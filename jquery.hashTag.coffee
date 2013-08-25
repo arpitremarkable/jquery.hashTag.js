@@ -33,7 +33,7 @@ class HashTag
 		@trigger @load, @old_hash
 
 		if @clearAtLoad then @old_hash = []
-		@applyHash(@hash)
+		@applyHash()
 		_this = @
 		$target[@event]	(e)->
 			if _this.enableCtrlKey and (e.metaKey or e.ctrlKey)
@@ -46,7 +46,7 @@ class HashTag
 			tag = _this.source.apply($this)
 			if not multi then _this.removeHash(_this.hash.sub [tag]) # remove rest of the hashes from @hash except tag hash
 			if toggle then _this.toggleHash tag else _this.addHash tag # if toggle is enabled then use toggleHash
-			_this.applyHash(_this.hash)
+			_this.applyHash()
 
 	addHash:	(hash)	->
 		hash = [hash] if typeof hash isnt 'object'
@@ -69,7 +69,7 @@ class HashTag
 	joinHash:	(hash)	->
 		return "##{hash.join('#')}"
 
-	applyHash:	(hash)	->
+	applyHash:	()	->
 		window.location.hash = @joinHash @old_hash.concat(@hash).set()
 
 	setTarget:	(hash, pre_callback, post_callback)	->
