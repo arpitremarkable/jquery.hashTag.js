@@ -21,6 +21,7 @@ $.fn.extend
 
 class HashTag
 	constructor:	(@$target, options)	->
+		_this = @
 		defaults =
 			multi: false
 			toggle: false
@@ -32,15 +33,19 @@ class HashTag
 			load:	()	->	$(@).trigger 'click'
 
 		for key, value of $.extend defaults, options
-    		@[key]=value
+			@[key]=value
 
-    	# trigger @load for incoming hash tags
-    	@old_hash = @splitHash(window.location.hash).sub @hash
+		# auto slugify source
+		@_source = @source
+		@source = () ->
+			return _this._source.apply(@, arguments).slugify()
+
+		# trigger @load for incoming hash tags
+		@old_hash = @splitHash(window.location.hash).sub @hash
 		@trigger @load, @old_hash
 
 		if @clearAtLoad then @old_hash = []
 		@applyHash(@hash)
-		_this = @
 		$target[@event]	(e)->
 			if _this.enableCtrlKey and (e.metaKey or e.ctrlKey)
 				multi = true
@@ -72,7 +77,7 @@ class HashTag
 		return (tag for tag in hash.split('#') when Boolean(tag))
 
 	joinHash:	(hash)	->
-		return "##{hash.slugify().join('#')}"
+		return "##{hash.join('#')}"
 
 	applyHash:	(hash)	->
 		window.location.hash = @joinHash @old_hash.concat(@hash).set()

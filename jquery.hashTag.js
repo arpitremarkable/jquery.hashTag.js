@@ -78,6 +78,7 @@ HashTag = (function() {
   function HashTag($target, options) {
     var defaults, key, value, _ref, _this;
     this.$target = $target;
+    _this = this;
     defaults = {
       multi: false,
       toggle: false,
@@ -97,13 +98,16 @@ HashTag = (function() {
       value = _ref[key];
       this[key] = value;
     }
+    this._source = this.source;
+    this.source = function() {
+      return _this._source.apply(this, arguments).slugify();
+    };
     this.old_hash = this.splitHash(window.location.hash).sub(this.hash);
     this.trigger(this.load, this.old_hash);
     if (this.clearAtLoad) {
       this.old_hash = [];
     }
     this.applyHash(this.hash);
-    _this = this;
     $target[this.event](function(e) {
       var multi, tag, toggle;
       if (_this.enableCtrlKey && (e.metaKey || e.ctrlKey)) {
@@ -177,7 +181,7 @@ HashTag = (function() {
   };
 
   HashTag.prototype.joinHash = function(hash) {
-    return "#" + (hash.slugify().join('#'));
+    return "#" + (hash.join('#'));
   };
 
   HashTag.prototype.applyHash = function(hash) {
