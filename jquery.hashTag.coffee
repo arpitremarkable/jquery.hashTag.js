@@ -23,22 +23,24 @@ class HashTag
 	constructor:	(@$target, options)	->
 		_this = @
 		defaults =
-			multi: false
-			toggle: false
-			enableCtrlKey: false
 			clearAtLoad: true
+			enableCtrlKey: false
 			event: 'click'
 			hash: []
-			source: ()	->	$(@).text()
 			load:	()	->	$(@).trigger 'click'
+			multi: false
+			slugifySource: true
+			source: ()	->	$(@).text()
+			toggle: false
 
 		for key, value of $.extend defaults, options
 			@[key]=value
 
-		# auto slugify source
-		@_source = @source
-		@source = () ->
-			return _this._source.apply(@, arguments).slugify()
+		# auto slugify source if permitted
+		if @slugifySource
+			@_source = @source
+			@source = () ->
+				return _this._source.apply(@, arguments).slugify()
 
 		# trigger @load for incoming hash tags
 		@old_hash = @splitHash(window.location.hash).sub @hash

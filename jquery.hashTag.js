@@ -80,28 +80,31 @@ HashTag = (function() {
     this.$target = $target;
     _this = this;
     defaults = {
-      multi: false,
-      toggle: false,
-      enableCtrlKey: false,
       clearAtLoad: true,
+      enableCtrlKey: false,
       event: 'click',
       hash: [],
+      load: function() {
+        return $(this).trigger('click');
+      },
+      multi: false,
+      slugifySource: true,
       source: function() {
         return $(this).text();
       },
-      load: function() {
-        return $(this).trigger('click');
-      }
+      toggle: false
     };
     _ref = $.extend(defaults, options);
     for (key in _ref) {
       value = _ref[key];
       this[key] = value;
     }
-    this._source = this.source;
-    this.source = function() {
-      return _this._source.apply(this, arguments).slugify();
-    };
+    if (this.slugifySource) {
+      this._source = this.source;
+      this.source = function() {
+        return _this._source.apply(this, arguments).slugify();
+      };
+    }
     this.old_hash = this.splitHash(window.location.hash).sub(this.hash);
     this.trigger(this.load, this.old_hash);
     if (this.clearAtLoad) {
