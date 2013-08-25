@@ -22,8 +22,8 @@ class HashTag
 			clearAtLoad: true
 			event: 'click'
 			hash: []
-			source: ()	->	@text()
-			load:	()	-> @trigger 'click'
+			source: ()	->	$(@).text()
+			load:	()	->	$(@).trigger 'click'
 
 		for key, value of $.extend defaults, options
     		@[key]=value
@@ -42,8 +42,7 @@ class HashTag
 			else
 				multi = _this.multi
 				toggle = if _this.enableCtrlKey then false else _this.toggle
-			$this = $ @
-			tag = _this.source.apply($this)
+			tag = _this.source.apply @
 			if not multi then _this.removeHash(_this.hash.sub [tag]) # remove rest of the hashes from @hash except tag hash
 			if toggle then _this.toggleHash tag else _this.addHash tag # if toggle is enabled then use toggleHash
 			_this.applyHash(_this.hash)
@@ -76,12 +75,14 @@ class HashTag
 		$target = $()
 		_this = @
 		@$target.each	->
-			__this= $(@)
-			if _this.source.apply(__this) in hash
+			if _this.source.apply(@) in hash
 				$target.push @
 		return $target
 
 	trigger:	(fn, hash)	->
 		$target = @setTarget hash.concat(@hash).set()
-		if fn? then fn.apply($target)
-		@addHash @source.apply $target
+		[tags, _this] = [[], @]
+		$target.each	->
+			fn.apply @, arguments if fn?
+			_this.source.apply @, arguments
+		@addHash tags

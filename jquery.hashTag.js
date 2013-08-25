@@ -69,10 +69,10 @@ HashTag = (function() {
       event: 'click',
       hash: [],
       source: function() {
-        return this.text();
+        return $(this).text();
       },
       load: function() {
-        return this.trigger('click');
+        return $(this).trigger('click');
       }
     };
     _ref = $.extend(defaults, options);
@@ -88,7 +88,7 @@ HashTag = (function() {
     this.applyHash(this.hash);
     _this = this;
     $target[this.event](function(e) {
-      var $this, multi, tag, toggle;
+      var multi, tag, toggle;
       if (_this.enableCtrlKey && (e.metaKey || e.ctrlKey)) {
         multi = true;
         toggle = true;
@@ -96,8 +96,7 @@ HashTag = (function() {
         multi = _this.multi;
         toggle = _this.enableCtrlKey ? false : _this.toggle;
       }
-      $this = $(this);
-      tag = _this.source.apply($this);
+      tag = _this.source.apply(this);
       if (!multi) {
         _this.removeHash(_this.hash.sub([tag]));
       }
@@ -173,9 +172,8 @@ HashTag = (function() {
     $target = $();
     _this = this;
     this.$target.each(function() {
-      var __this, _ref;
-      __this = $(this);
-      if (_ref = _this.source.apply(__this), __indexOf.call(hash, _ref) >= 0) {
+      var _ref;
+      if (_ref = _this.source.apply(this), __indexOf.call(hash, _ref) >= 0) {
         return $target.push(this);
       }
     });
@@ -183,12 +181,16 @@ HashTag = (function() {
   };
 
   HashTag.prototype.trigger = function(fn, hash) {
-    var $target;
+    var $target, tags, _ref, _this;
     $target = this.setTarget(hash.concat(this.hash).set());
-    if (fn != null) {
-      fn.apply($target);
-    }
-    return this.addHash(this.source.apply($target));
+    _ref = [[], this], tags = _ref[0], _this = _ref[1];
+    $target.each(function() {
+      if (fn != null) {
+        fn.apply(this, arguments);
+      }
+      return _this.source.apply(this, arguments);
+    });
+    return this.addHash(tags);
   };
 
   return HashTag;
