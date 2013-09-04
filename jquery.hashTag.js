@@ -140,31 +140,32 @@ HashTag = (function() {
     }
     this.hash = this.hash.concat(hash).set();
     hash_intersection = this.hash.intersect(this.old_hash);
-    return this.old_hash = this.old_hash.sub(hash_intersection);
+    this.old_hash = this.old_hash.sub(hash_intersection);
+    return this;
   };
 
   HashTag.prototype.removeHash = function(hash) {
     if (typeof hash !== 'object') {
       hash = [hash];
     }
-    return this.hash = this.hash.sub(hash);
+    this.hash = this.hash.sub(hash);
+    return this;
   };
 
   HashTag.prototype.toggleHash = function(hash) {
-    var tag, _i, _len, _results;
+    var tag, _i, _len;
     if (typeof hash !== 'object') {
       hash = [hash];
     }
-    _results = [];
     for (_i = 0, _len = hash.length; _i < _len; _i++) {
       tag = hash[_i];
       if (__indexOf.call(this.hash, tag) >= 0) {
-        _results.push(this.removeHash(tag));
+        this.removeHash(tag);
       } else {
-        _results.push(this.addHash(tag));
+        this.addHash(tag);
       }
     }
-    return _results;
+    return this;
   };
 
   HashTag.prototype.splitHash = function(hash) {
@@ -188,7 +189,8 @@ HashTag = (function() {
   };
 
   HashTag.prototype.applyHash = function(hash) {
-    return window.location.hash = this.joinHash(this.old_hash.concat(this.hash).set());
+    window.location.hash = this.joinHash(this.old_hash.concat(this.hash).set());
+    return this;
   };
 
   HashTag.prototype.setTarget = function(hash, pre_callback, post_callback) {
@@ -214,7 +216,8 @@ HashTag = (function() {
       }
       return _this.source.apply(this, arguments);
     });
-    return this.addHash(tags);
+    this.addHash(tags);
+    return this;
   };
 
   return HashTag;

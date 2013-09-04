@@ -65,15 +65,18 @@ class HashTag
 		@hash = @hash.concat(hash).set()
 		hash_intersection = @hash.intersect @old_hash
 		@old_hash = @old_hash.sub hash_intersection
+		return @
 
 	removeHash:	(hash)	->
 		hash = [hash] if typeof hash isnt 'object'
 		@hash = @hash.sub hash
+		return @
 
 	toggleHash:	(hash)	->
 		hash = [hash] if typeof hash isnt 'object'
 		for tag in hash
 			if tag in @hash then @removeHash tag else @addHash tag
+		return @
 
 	splitHash:	(hash)	->
 		return (tag for tag in hash.split('#') when Boolean(tag))
@@ -83,6 +86,7 @@ class HashTag
 
 	applyHash:	(hash)	->
 		window.location.hash = @joinHash @old_hash.concat(@hash).set()
+		return @
 
 	setTarget:	(hash, pre_callback, post_callback)	->
 		$target = $()
@@ -99,3 +103,4 @@ class HashTag
 			fn.apply @, arguments if fn?
 			_this.source.apply @, arguments
 		@addHash tags
+		return @
