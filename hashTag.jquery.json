@@ -1,0 +1,31 @@
+{
+    "name": "hashTag",
+    "title": "jQuery HashTag",
+    "description": "jQuery plugin that provides url hashTag support for target elements..",
+    "keywords": [
+        "hashTag",
+        "hash",
+        "url",
+        "pushState",
+        "previous",
+        "next"
+    ],
+    "version": "0.2.0",
+    "author": {
+        "name": "Arpit Singh",
+        "email" : "arpit@india.com"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    ],
+    "bugs": "https://github.com/arpitremarkable/jquery.hashTag.js/issues",
+    "homepage": "https://github.com/arpitremarkable/jquery.hashTag.js",
+    "docs": "https://github.com/arpitremarkable/jquery.hashTag.js/blob/master/README.md",
+    "download": "https://github.com/arpitremarkable/jquery.hashTag.js/archive/master.zip",
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
+}
